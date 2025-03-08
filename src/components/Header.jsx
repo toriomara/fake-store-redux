@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
+import { LogIn, ShoppingCart } from "lucide-react";
+import { Button } from "./ui/button";
 
 export const Header = () => {
   const pages = [
@@ -28,7 +30,11 @@ export const Header = () => {
           <div className="hidden md:flex gap-6">
             {pages.map((item) => (
               <Link
-                className={`hover:text-primary`}
+                className={`text-lg hover:text-primary ${
+                  pathname === item.href
+                    ? " text-chart-3"
+                    : "text-muted-foreground"
+                }`}
                 href={item.href}
                 key={item.title}
               >
@@ -36,7 +42,19 @@ export const Header = () => {
               </Link>
             ))}
           </div>
-          <div>
+          {/* 3rd BLOCK */}
+          <div className="flex gap-4">
+            {/* BUTTON OR USER MENU */}
+            <div>
+              <Button>
+                <LogIn /> Sign In
+              </Button>
+            </div>
+            <div>
+              <Button variant="ghost">
+                <ShoppingCart />
+              </Button>
+            </div>
             <ThemeToggle />
           </div>
         </div>
