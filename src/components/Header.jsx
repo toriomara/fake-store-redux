@@ -17,7 +17,7 @@ export const Header = () => {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 border-stone-300 dark:border-stone-800 border-b">
+    <header className="sticky top-0 bg-background border-stone-300 dark:border-stone-800 border-b z-20">
       <div className="container mx-auto p-4">
         <div className="flex items-center justify-between">
           {/* LOGO */}
