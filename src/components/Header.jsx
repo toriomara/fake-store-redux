@@ -6,15 +6,15 @@ import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
 import { LogIn, ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
+import { useActivePath } from "@/hooks/useActivePath";
 
 export const Header = () => {
+  const checkActivePath = useActivePath();
   const pages = [
     { title: "Home", href: "/" },
     { title: "Products", href: "/products" },
     { title: "Cart", href: "/cart" },
   ];
-
-  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 bg-background border-stone-300 dark:border-stone-800 border-b z-20">
@@ -30,8 +30,8 @@ export const Header = () => {
           <div className="hidden md:flex gap-6">
             {pages.map((item) => (
               <Link
-                className={`text-lg hover:text-primary ${
-                  pathname === item.href
+                className={`${
+                  checkActivePath(item.href)
                     ? " text-chart-3"
                     : "text-muted-foreground"
                 }`}

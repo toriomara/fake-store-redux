@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 my-6">
       <h1 className="flex justify-center text-4xl font-bold mb-8">
         Welcome to the Best Fake Store!
       </h1>

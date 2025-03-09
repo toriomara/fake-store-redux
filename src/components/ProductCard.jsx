@@ -13,7 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const ProductCard = ({ product }) => {
-  const { image, title, category, price } = product;
+  const { id, image, title, category, price } = product;
 
   return (
     <Card className="overflow-hidden flex-1 h-full shadow-lg hover:shadow-xl transition-shadow duration-300 p-0">
@@ -24,7 +24,7 @@ export const ProductCard = ({ product }) => {
       </CardHeader>
       <CardContent className="grid gap-4 px-4">
         <CardTitle className="text-lg font-semibold h-12 line-clamp-2 leading-6">
-          <Link href="/">{title}</Link>
+          <Link href={`/products/${id}`}>{title}</Link>
         </CardTitle>
         <CardDescription className="flex justify-between mt-2 text-xl font-bold text-primary">
           ${price}
