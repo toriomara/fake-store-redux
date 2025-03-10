@@ -26,10 +26,11 @@ const LoginPage = () => {
   });
 
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleLogin = async (data) => {
+    setLoading(true);
     try {
       const res = await fetch("/api/login", {
         method: "POST",
@@ -48,7 +49,7 @@ const LoginPage = () => {
         setError(result.message || "Login failed");
       }
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      setError("An error occurred. Please try again");
     } finally {
       setLoading(false);
     }
@@ -59,7 +60,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 my-6 flex-1 flex items-center justify-center">
+    <div className="container mx-auto h-[90%] p-4 my-6 flex-1 flex items-center justify-center">
       <Card className="w-full max-w-md p-6 shadow-md flex place-self-center">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Login</CardTitle>
