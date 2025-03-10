@@ -1,5 +1,4 @@
 import { ProductList } from "@/components/ProductList";
-import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
@@ -11,7 +10,6 @@ export default function HomePage() {
         Your Shopping Just a Click Away
       </h2>
       <ProductList />
-      {/* <Button>Don&rsquo;t click me now</Button> */}
     </div>
   );
 }

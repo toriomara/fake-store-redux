@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const CartPage = () => {
-  return (
-    <div className='container mx-auto px-4'>CartPage</div>
-  )
-}
+  return <div className="container mx-auto px-4 my-8">CartPage</div>;
+};
 
-export default CartPage
+export default CartPage;

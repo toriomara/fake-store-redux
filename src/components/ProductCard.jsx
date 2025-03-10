@@ -18,9 +18,16 @@ export const ProductCard = ({ product }) => {
   return (
     <Card className="overflow-hidden flex-1 h-full shadow-lg hover:shadow-xl transition-shadow duration-300 p-0">
       <CardHeader className="p-0">
-        <div className="relative h-60 bg-white">
-          <Image src={image} alt={title} fill className="object-contain p-4" />
-        </div>
+        <Link href={`/products/${id}`}>
+          <div className="relative h-60 bg-white">
+            <Image
+              src={image}
+              alt={title}
+              fill
+              className="object-contain p-4"
+            />
+          </div>
+        </Link>
       </CardHeader>
       <CardContent className="grid gap-4 px-4">
         <CardTitle className="text-lg font-semibold h-12 line-clamp-2 leading-6">

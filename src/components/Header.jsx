@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
-import { LogIn, ShoppingCart } from "lucide-react";
+import { LogIn, ShoppingCart, Store } from "lucide-react";
 import { Button } from "./ui/button";
 import { useActivePath } from "@/hooks/useActivePath";
 
@@ -22,23 +22,23 @@ export const Header = () => {
         <div className="flex items-center justify-between">
           {/* LOGO */}
           <div>
-            <Link className="text-xl font-extrabold" href="/">
-              Fake Store
+            <Link className="flex text-2xl font-extrabold items-center gap-4" href="/">
+              Fake Store <Store className="text-primary" />
             </Link>
           </div>
           {/* PAGES NAVI DESKTOP */}
           <div className="hidden md:flex gap-6">
-            {pages.map((item) => (
+            {pages.map((link) => (
               <Link
                 className={`${
-                  checkActivePath(item.href)
-                    ? " text-chart-3"
-                    : "text-muted-foreground"
+                  checkActivePath(link.href)
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
-                href={item.href}
-                key={item.title}
+                href={link.href}
+                key={link.title}
               >
-                {item.title}
+                {link.title}
               </Link>
             ))}
           </div>
@@ -46,9 +46,11 @@ export const Header = () => {
           <div className="flex gap-4">
             {/* BUTTON OR USER MENU */}
             <div>
-              <Button>
-                <LogIn /> Sign In
-              </Button>
+              <Link href="/login">
+                <Button>
+                  <LogIn /> Sign In
+                </Button>
+              </Link>
             </div>
             <div>
               <Button variant="ghost">
