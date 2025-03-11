@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { getProductById } from "@/lib/data";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import Loader from "@/components/Loader";
+import { Loader } from "@/components/Loader";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 

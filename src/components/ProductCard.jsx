@@ -41,7 +41,7 @@ export const ProductCard = ({ product }) => {
         </CardDescription>
       </CardContent>
       <CardFooter className="flex justify-between p-4 py-6">
-        <Button variant="default" className="flex-1 mr-2 text-lg">
+        <Button variant="default" className="flex-1 mr-2 text-lg font-semibold">
           Add to Cart
         </Button>
         <Button variant="outline" size="icon">

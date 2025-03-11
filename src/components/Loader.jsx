@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 
-const Loader = () => {
+export const Loader = () => {
   const { theme } = useTheme();
 
   return (
@@ -16,4 +16,3 @@ const Loader = () => {
   );
 };
 
-export default Loader;
