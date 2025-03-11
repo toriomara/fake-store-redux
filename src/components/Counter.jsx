@@ -8,6 +8,9 @@ export const Counter = () => {
   const counter = useSelector((state) => state.counter.value);
   const dispatch = useDispatch();
 
+  const auth = useSelector((state) => state.auth.isAuthenticated);
+  console.log("AUTH ===>>", auth);
+
   return (
     <div className="grid gap-6">
       <h1 className="text-4xl font-semibold">Counter: {counter}</h1>

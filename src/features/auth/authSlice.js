@@ -1,15 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { value: 0 };
+const initialState = {
+  isAuthenticated: false,
+  token: null,
+  username: null,
+};
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
-//   reducers: {
-//     increment: (state) => { state.value += 1; },
-//     decrement: (state) => { state.value -= 1; },
-//   },
+  reducers: {
+    login: (state, action) => {
+      state.isAuthenticated = true;
+      state.token = action.payload.token;
+      state.username = action.payload.username;
+    },
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.token = null;
+      state.username = null;
+    },
+  },
 });
 
-// export const { increment, decrement } = counterSlice.actions;
+export const { login, logout } = authSlice.actions;
 export default authSlice.reducer;
+
+//  {
+//     username: 'johnd';
+//     password: m38rmF$
+// }

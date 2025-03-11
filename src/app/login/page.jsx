@@ -1,27 +1,42 @@
 "use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState } from "react";
+import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useDispatch } from "react-redux";
+import { login } from "@/features/auth/authSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Loader from "@/components/Loader";
 
+// Zod schema for form validation
 const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  username: z.string().min(3, "Username must be at least 3 characters"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-const LoginPage = () => {
+// Reusable Input Field Component
+const InputField = ({ name, type, placeholder }) => {
   const {
     register,
-    handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useFormContext();
+
+  return (
+    <div className="mb-3">
+      <Input {...register(name)} type={type} placeholder={placeholder} />
+      {errors[name] && (
+        <p className="text-red-500 text-sm">{errors[name]?.message}</p>
+      )}
+    </div>
+  );
+};
+
+const LoginPage = () => {
+  const dispatch = useDispatch();
+  const methods = useForm({
     resolver: zodResolver(loginSchema),
   });
 
@@ -32,7 +47,7 @@ const LoginPage = () => {
   const handleLogin = async (data) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("https://fakestoreapi.com/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,11 +55,14 @@ const LoginPage = () => {
         body: JSON.stringify(data),
       });
 
-      const result = await res.json();
+      if (!res.ok) {
+        throw new Error("Login failed");
+      }
 
       if (res.ok) {
-        localStorage.setItem("token", result.token);
-        router.push("/admin");
+        const data = await res.json();
+        dispatch(login({ token: data.token, username: data.username }));
+        router.push("/");
       } else {
         setError(result.message || "Login failed");
       }
@@ -60,51 +78,29 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="container mx-auto h-[90%] p-4 my-6 flex-1 flex items-center justify-center">
+    <div className="container-page h-[90%] flex-1 flex items-center justify-center">
       <Card className="w-full max-w-md p-6 shadow-md flex place-self-center">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Login</CardTitle>
         </CardHeader>
         <CardContent>
-          {error && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-          <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                {...register("email")}
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(handleLogin)} className="">
+              <InputField
+                name="username"
+                type="text"
+                placeholder="Enter Username"
               />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+              <InputField
+                name="password"
                 type="password"
-                placeholder="Enter your password"
-                {...register("password")}
+                placeholder="Enter Password"
               />
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-            <Button type="submit" className="w-full mt-6">
-              Login
-            </Button>
-          </form>
+              <Button type="submit" className="w-full mt-4">
+                Login
+              </Button>
+            </form>
+          </FormProvider>
         </CardContent>
       </Card>
     </div>
@@ -112,3 +108,41 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+// "use client"; // Required if using Next.js App Router
+
+// import React from "react";
+// import { useForm, FormProvider, useFormContext } from "react-hook-form";
+
+// // Child component using useFormContext
+// const InputField = ({ name, type, placeholder }) => {
+//   const { register, formState: { errors } } = useFormContext(); // Get form methods
+
+//   return (
+//     <div>
+//       <input {...register(name, { required: `${name} is required` })} type={type} placeholder={placeholder} />
+//       {errors[name] && <p style={{ color: "red" }}>{errors[name]?.message}</p>}
+//     </div>
+//   );
+// };
+
+// const LoginPage = () => {
+//   const methods = useForm(); // Initialize the form
+
+//   const onSubmit = (data) => {
+//     console.log("Login Data:", data);
+//   };
+
+//   return (
+//     <FormProvider {...methods}>
+//       <form onSubmit={methods.handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", width: "300px", margin: "auto" }}>
+//         <h2>Login</h2>
+//         <InputField name="username" type="text" placeholder="Enter Username" />
+//         <InputField name="password" type="password" placeholder="Enter Password" />
+//         <button type="submit">Login</button>
+//       </form>
+//     </FormProvider>
+//   );
+// };
+
+// export default LoginPage;
