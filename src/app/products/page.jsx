@@ -1,6 +1,4 @@
 import { ProductList } from "@/components/ProductList";
-import { getProducts } from "@/lib/data";
-import React from "react";
 
 const ProductsPage = async () => {
   return (

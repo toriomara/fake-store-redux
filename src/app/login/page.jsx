@@ -61,7 +61,7 @@ const LoginPage = () => {
 
       if (res.ok) {
         const data = await res.json();
-        dispatch(login({ token: data.token, username: data.username }));
+        dispatch(login(data));
         router.push("/");
       } else {
         setError(result.message || "Login failed");
@@ -108,41 +108,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-// "use client"; // Required if using Next.js App Router
-
-// import React from "react";
-// import { useForm, FormProvider, useFormContext } from "react-hook-form";
-
-// // Child component using useFormContext
-// const InputField = ({ name, type, placeholder }) => {
-//   const { register, formState: { errors } } = useFormContext(); // Get form methods
-
-//   return (
-//     <div>
-//       <input {...register(name, { required: `${name} is required` })} type={type} placeholder={placeholder} />
-//       {errors[name] && <p style={{ color: "red" }}>{errors[name]?.message}</p>}
-//     </div>
-//   );
-// };
-
-// const LoginPage = () => {
-//   const methods = useForm(); // Initialize the form
-
-//   const onSubmit = (data) => {
-//     console.log("Login Data:", data);
-//   };
-
-//   return (
-//     <FormProvider {...methods}>
-//       <form onSubmit={methods.handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", width: "300px", margin: "auto" }}>
-//         <h2>Login</h2>
-//         <InputField name="username" type="text" placeholder="Enter Username" />
-//         <InputField name="password" type="password" placeholder="Enter Password" />
-//         <button type="submit">Login</button>
-//       </form>
-//     </FormProvider>
-//   );
-// };
-
-// export default LoginPage;

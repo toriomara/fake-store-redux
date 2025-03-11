@@ -20,9 +20,10 @@ export const Header = () => {
   // const path = usePathname();
   const checkActivePath = useActivePath();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    useDispatch(logout());
+    dispatch(logout());
   };
 
   return (
