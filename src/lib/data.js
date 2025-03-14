@@ -4,6 +4,9 @@
 export const getAllProducts = async () => {
   try {
     const res = await fetch("https://fakestoreapi.com/products");
+    // const res = await fetch(
+    //   `https://fakestoreapi.com/products?sort=${sortOrder}`
+    // );
     if (!res.ok) {
       throw new Error("Failed to fetch products");
     }

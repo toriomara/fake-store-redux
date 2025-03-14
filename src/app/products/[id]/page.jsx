@@ -8,12 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/Loader";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { addToCart } from "@/features/cart/cartSlice";
+import { useDispatch } from "react-redux";
 
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
@@ -32,6 +36,16 @@ const ProductPage = () => {
     fetchData();
   }, [id]);
 
+  const handleAddToCart = () => {
+    if (!product) return;
+    console.log("CLICK!! ===>>", product.title);
+    dispatch(addToCart({ ...product, quantity: 1 }));
+    toast("Success!", {
+      title: "Item added",
+      description: `${product.title} has been added to your cart`,
+    });
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -49,7 +63,7 @@ const ProductPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="relative bg-white rounded-xl h-[400px] border border-input shadow-md">
           <Image
-            src={product.image}
+            src={product.image || "/images/placeholderImage.svg"}
             alt={product.title}
             fill
             objectFit="contain"
@@ -64,7 +78,7 @@ const ProductPage = () => {
           <p className="text-3xl font-bold text-primary">${product.price}</p>
           <p className="text-foreground">{product.description}</p>
           <div className="grid sm:flex gap-4">
-            <Button variant="default">
+            <Button variant="default" onClick={handleAddToCart}>
               <ShoppingCart className="mr-2 h-4 w-4" />
               Add to Cart
             </Button>

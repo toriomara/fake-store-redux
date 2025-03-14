@@ -35,7 +35,7 @@ const NavLink = ({ link }) => {
   );
 };
 
-const MobileMenu = ({ links }) => {
+export const MobileMenu = ({ links }) => {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(max-width: 768px)");
 
@@ -86,4 +86,4 @@ const MobileMenu = ({ links }) => {
   );
 };
 
-export default MobileMenu;
+// export default MobileMenu;

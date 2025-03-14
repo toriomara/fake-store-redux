@@ -2,15 +2,15 @@
 
 import React from "react";
 import Link from "next/link";
-// import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
-import { LogIn, LogOut, ShoppingCart, Store } from "lucide-react";
+import { LogIn, ShoppingCart, Store } from "lucide-react";
 import { Button } from "./ui/button";
 import { useActivePath } from "@/hooks/useActivePath";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/features/auth/authSlice";
-import MobileMenu from "./MobileMenu";
+import { useSelector } from "react-redux";
+import { MobileMenu } from "./MobileMenu";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Badge } from "./ui/badge";
+import { Logout } from "./Logout";
 
 const pages = [
   { title: "Home", href: "/" },
@@ -19,15 +19,11 @@ const pages = [
 ];
 
 export const Header = () => {
-  // const path = usePathname();
   const isXs = useMediaQuery("(min-width: 540px)");
   const checkActivePath = useActivePath();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+  const cart = useSelector((state) => state.cart.items);
+  const itemQuantity = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <header className="sticky top-0 bg-background border-stone-300 dark:border-stone-800 border-b z-20">
@@ -75,13 +71,7 @@ export const Header = () => {
             {isXs && (
               <div className="flex items-center gap-4">
                 {isAuthenticated ? (
-                  <Button
-                    className="font-semibold"
-                    onClick={handleLogout}
-                    size="sm"
-                  >
-                    <LogOut /> Sign Out
-                  </Button>
+                  <Logout />
                 ) : (
                   <Link href="/login">
                     <Button className="font-semibold">
@@ -89,9 +79,19 @@ export const Header = () => {
                     </Button>
                   </Link>
                 )}
-                <Button variant="ghost">
-                  <ShoppingCart />
-                </Button>
+                <Link href="/cart">
+                  <Button variant="ghost">
+                    <ShoppingCart />
+                    {cart.length > 0 && (
+                      <Badge
+                        className="relative -top-2 right-3 h-3 w-3 rounded-[25%] flex items-center justify-center p-0 text-[11px]"
+                        variant="destructive"
+                      >
+                        {itemQuantity}
+                      </Badge>
+                    )}
+                  </Button>
+                </Link>
                 <ThemeToggle />
               </div>
             )}
